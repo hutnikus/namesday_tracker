@@ -2,7 +2,8 @@
     style="@style/Widget.NamesdayTracker.AppWidget.InnerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.NamesdayTracker.AppWidgetContainer">
+    android:theme="@style/Theme.NamesdayTracker.AppWidgetContainer"
+    android:padding="0dp">
 
     <TextView
         android:id="@+id/appwidget_text"
