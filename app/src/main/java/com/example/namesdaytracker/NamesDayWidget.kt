@@ -19,7 +19,6 @@ import java.time.ZonedDateTime
  * Implementation of App Widget functionality.
  */
 class NamesDayWidget : AppWidgetProvider() {
-
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -73,6 +72,10 @@ class NamesDayWidget : AppWidgetProvider() {
             pendingIntent
         )
     }
+
+    companion object {
+        val chosenLocales: List<String> = listOf("cz","sk")
+    }
 }
 
 internal fun updateAppWidget(
@@ -82,7 +85,9 @@ internal fun updateAppWidget(
 ) {
 //    val widgetText = context.getString(R.string.appwidget_text)
 
-    val widgetText = Utils.getTodayNames(context)
+//    val widgetText = Utils.getTodayNames(context)
+    val todayNames = Utils.getTodayCombinedNames(context,NamesDayWidget.chosenLocales)
+    val widgetText = Utils.combinedNameMapToString(todayNames)
 
     // Construct the RemoteViews object
     val views = RemoteViews(context.packageName, R.layout.names_day_widget)
