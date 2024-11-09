@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.DatePicker
 import android.widget.TextView
 import androidx.activity.ComponentActivity
@@ -35,6 +36,9 @@ class MainActivity : ComponentActivity() {
             yearPart.visibility = View.GONE
         }
 
+        val todayButton: Button = findViewById(R.id.todayButton)
+        todayButton.setOnClickListener(::onTodayButtonClick)
+
 
 //        setTextViewText(Utils.getNameByDate(dateMap, today))
         val nameToday = Utils.getCombinedNamesByDate(combinedDateMap,today, chosenLocales)
@@ -59,6 +63,18 @@ class MainActivity : ComponentActivity() {
         val selectedDay = LocalDate.of(year,month+1,day)
         val nameToday = Utils.getCombinedNamesByDate(combinedDateMap,selectedDay, chosenLocales)
         setTextViewText(Utils.combinedNameMapToString(nameToday))
+    }
+
+    private fun onTodayButtonClick(view: View) : Unit {
+        Log.d("button press", "Button pressed")
+
+        val today = LocalDate.now()
+        setDatePickerDate(today.year,today.monthValue-1,today.dayOfMonth)
+    }
+
+    private fun setDatePickerDate(year: Int,month: Int,day: Int) {
+        val datePicker: DatePicker = findViewById(R.id.datePicker)
+        datePicker.updateDate(year,month,day)
     }
 }
 
