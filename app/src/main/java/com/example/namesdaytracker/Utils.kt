@@ -59,7 +59,7 @@ class Utils {
 
         fun getTodayNames(context: Context): String {
             val today = LocalDate.now()
-            val name = readNamesDayJson(context,"meniny_sk.json")
+            val name = readNamesDayJson(context,"locales/meniny_sk.json")
                 ?.get(today.monthValue.toString())
                 ?.get(today.dayOfMonth.toString())!!.joinToString(", ")
             if (name == "-") {
@@ -109,7 +109,7 @@ class Utils {
             val result: MutableMap<String, String> = mutableMapOf()
             for (loc in localities) {
                 val names = getNameByLocaleAndDate(map,loc,date)
-                result.put(loc,names)
+                result[loc] = names
             }
             return result
         }
@@ -117,7 +117,7 @@ class Utils {
         fun combinedNameMapToString(map: Map<String, String>): String {
             val countries: Map<String, String> = mapOf(Pair("sk","\uD83C\uDDF8\uD83C\uDDF0"),
                 Pair("cz", "\uD83C\uDDE8\uD83C\uDDFF"))
-            var result: String = ""
+            var result = ""
             for (key in map.keys) {
                 result += countries[key] + " " + map[key] + "\n"
             }

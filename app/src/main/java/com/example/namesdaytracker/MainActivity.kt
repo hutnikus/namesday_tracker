@@ -1,5 +1,6 @@
 package com.example.namesdaytracker
 
+import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
@@ -16,11 +17,12 @@ class MainActivity : ComponentActivity() {
     private var combinedDateMap: Map<String, Map<String, Map<String, List<String>>>>? = null
     private val chosenLocales = listOf("cz","sk")
 
+    @SuppressLint("DiscouragedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        this.dateMap = Utils.readNamesDayJson(this,"meniny_sk.json")
+        this.dateMap = Utils.readNamesDayJson(this,"locales/meniny_sk.json")
 //        this.combinedDateMap = Utils.readNamesDayJson(this,"meniny_sk.json")
         combinedDateMap = Utils.readCombinedJson(this,"meniny_combined.json")
         Log.d("json", dateMap.toString())
@@ -40,7 +42,6 @@ class MainActivity : ComponentActivity() {
         todayButton.setOnClickListener(::onTodayButtonClick)
 
 
-//        setTextViewText(Utils.getNameByDate(dateMap, today))
         val nameToday = Utils.getCombinedNamesByDate(combinedDateMap,today, chosenLocales)
         setTextViewText(Utils.combinedNameMapToString(nameToday))
 
@@ -57,7 +58,6 @@ class MainActivity : ComponentActivity() {
 
     @Suppress("UNUSED_PARAMETER")
     private fun onDateChange(datePicker: DatePicker, year: Int, month: Int, day: Int) {
-//        setTextViewText(Utils.getNameByDate(dateMap, day,month+1))
         Log.d("month",String.format("year %d, month %d, day %d",year,month,day))
 
         val selectedDay = LocalDate.of(year,month+1,day)
@@ -65,7 +65,8 @@ class MainActivity : ComponentActivity() {
         setTextViewText(Utils.combinedNameMapToString(nameToday))
     }
 
-    private fun onTodayButtonClick(view: View) : Unit {
+    @Suppress("UNUSED_PARAMETER")
+    private fun onTodayButtonClick(view: View) {
         Log.d("button press", "Button pressed")
 
         val today = LocalDate.now()

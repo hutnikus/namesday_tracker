@@ -14,6 +14,7 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
+const val ACTION_SCHEDULED_UPDATE = "com.example.namesdaytracker.SCHEDULED_UPDATE"
 
 /**
  * Implementation of App Widget functionality.
@@ -29,11 +30,11 @@ class NamesDayWidget : AppWidgetProvider() {
             updateAppWidget(context, appWidgetManager, appWidgetId)
         }
 
-        _scheduleNextUpdate(context)
+        scheduleNextUpdate(context)
     }
 
     override fun onEnabled(context: Context) {
-        _scheduleNextUpdate(context)
+        scheduleNextUpdate(context)
 
         // Enter relevant functionality for when the first widget is created
     }
@@ -41,8 +42,6 @@ class NamesDayWidget : AppWidgetProvider() {
     override fun onDisabled(context: Context) {
         // Enter relevant functionality for when the last widget is disabled
     }
-
-    private val ACTION_SCHEDULED_UPDATE = "com.example.namesdaytracker.SCHEDULED_UPDATE"
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == ACTION_SCHEDULED_UPDATE) {
@@ -53,7 +52,7 @@ class NamesDayWidget : AppWidgetProvider() {
         super.onReceive(context, intent)
     }
 
-    private fun _scheduleNextUpdate(context: Context) {
+    private fun scheduleNextUpdate(context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         // Substitute AppWidget for whatever you named your AppWidgetProvider subclass
         val intent = Intent(context, NamesDayWidget::class.java)
