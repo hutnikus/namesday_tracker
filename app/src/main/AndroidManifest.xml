@@ -24,7 +24,6 @@
                 android:resource="@xml/names_day_widget_info" />
         </receiver>
 
-
         <activity
             android:name=".MainActivity"
             android:exported="true"

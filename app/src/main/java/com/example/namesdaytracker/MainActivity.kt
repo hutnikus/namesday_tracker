@@ -21,6 +21,9 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("DiscouragedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Log.d("widget","main activity created")
+
         setContentView(R.layout.activity_main)
 
         locales = DataUtils.getAllData(this)
