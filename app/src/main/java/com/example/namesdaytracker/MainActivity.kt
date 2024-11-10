@@ -9,25 +9,21 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import com.example.namesdaytracker.data.DataUtils
+import com.example.namesdaytracker.data.Locale
 import java.time.LocalDate
 
 
 class MainActivity : ComponentActivity() {
-    private var dateMap: Map<String, Map<String, List<String>>>? = null
-    private var combinedDateMap: Map<String, Map<String, Map<String, List<String>>>>? = null
     private val chosenLocales = listOf("cz","sk")
+    private lateinit var locales: ArrayList<Locale>
 
     @SuppressLint("DiscouragedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        this.dateMap = Utils.readNamesDayJson(this,"locales/meniny_sk.json")
-//        this.combinedDateMap = Utils.readNamesDayJson(this,"meniny_sk.json")
-        combinedDateMap = Utils.readCombinedJson(this,"meniny_combined.json")
-        Log.d("json", dateMap.toString())
-        Log.d("json", combinedDateMap.toString())
-
+        locales = DataUtils.getAllData(this)
 
         val today = LocalDate.now()
 
@@ -41,17 +37,12 @@ class MainActivity : ComponentActivity() {
         val todayButton: Button = findViewById(R.id.todayButton)
         todayButton.setOnClickListener(::onTodayButtonClick)
 
-
-        val nameToday = Utils.getCombinedNamesByDate(combinedDateMap,today, chosenLocales)
-        setTextViewText(Utils.combinedNameMapToString(nameToday))
-
-        Log.d("dano","main activity")
-
-
-
+        val nameToday = DataUtils.getPrintableNamesByLocaleAndDate(locales,chosenLocales,today.dayOfMonth,today.monthValue)
+        setTextViewText(nameToday)
     }
 
     private fun setTextViewText(text: String) {
+        Log.d("files", "printDayNames: $text")
         val textView = findViewById<TextView>(R.id.textView)
         textView.text = text
     }
@@ -60,9 +51,8 @@ class MainActivity : ComponentActivity() {
     private fun onDateChange(datePicker: DatePicker, year: Int, month: Int, day: Int) {
         Log.d("month",String.format("year %d, month %d, day %d",year,month,day))
 
-        val selectedDay = LocalDate.of(year,month+1,day)
-        val nameToday = Utils.getCombinedNamesByDate(combinedDateMap,selectedDay, chosenLocales)
-        setTextViewText(Utils.combinedNameMapToString(nameToday))
+        //+1 because the picker has january as 0
+        setTextViewText(DataUtils.getPrintableNamesByLocaleAndDate(locales,chosenLocales,day,month+1))
     }
 
     @Suppress("UNUSED_PARAMETER")

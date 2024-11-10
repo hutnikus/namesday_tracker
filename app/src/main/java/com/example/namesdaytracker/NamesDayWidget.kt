@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.RemoteViews
+import com.example.namesdaytracker.data.DataUtils
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
@@ -61,7 +62,6 @@ class NamesDayWidget : AppWidgetProvider() {
             PendingIntent.FLAG_IMMUTABLE)
 
         val nextMidnight = ZonedDateTime.of(LocalDate.now().plusDays(1), LocalTime.MIDNIGHT, ZoneId.systemDefault() )
-//        var nextMidnight = ZonedDateTime.of(LocalDate.now(), LocalTime.now().plusSeconds(15), ZoneId.systemDefault() )
 
         Log.d("dano",nextMidnight.toString())
 
@@ -82,11 +82,8 @@ internal fun updateAppWidget(
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int
 ) {
-//    val widgetText = context.getString(R.string.appwidget_text)
-
-//    val widgetText = Utils.getTodayNames(context)
-    val todayNames = Utils.getTodayCombinedNames(context,NamesDayWidget.chosenLocales)
-    val widgetText = Utils.combinedNameMapToString(todayNames)
+    val dataList = DataUtils.getAllData(context)
+    val widgetText = DataUtils.getTodayPrintableNamesByLocale(dataList,NamesDayWidget.chosenLocales)
 
     // Construct the RemoteViews object
     val views = RemoteViews(context.packageName, R.layout.names_day_widget)
