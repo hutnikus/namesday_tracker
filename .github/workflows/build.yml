@@ -1,0 +1,56 @@
+name: Build APK
+
+# Trigger this action when pushing to the master branch
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Java (necessary for Gradle)
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adoptopenjdk'
+
+      # Step 3: Cache Gradle dependencies
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # Step 4: Set up Gradle (optional, but useful for caching)
+      - name: Set up Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      # Step 5: Set up environment variables (pass secrets)
+      - name: Set up Keystore secrets
+        run: |
+          echo "KEYSTORE_FILE=${{ secrets.KEYSTORE_FILE }}" >> $GITHUB_ENV
+          echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
+          echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
+          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
+
+      # Step 6: Build the APK (use Gradle to build)
+      - name: Build APK
+        run: ./gradlew assembleRelease
+
+      # Step 7: Upload the APK as an artifact (optional)
+      - name: Upload APK as a GitHub release artifact
+        uses: softprops/action-gh-release@v1
+        with:
+          files: app/build/outputs/apk/release/app-release.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
