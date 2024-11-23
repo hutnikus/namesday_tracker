@@ -22,6 +22,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      # Step 3: Restore keystore from base64 secret
+      - name: Decode keystore and store it
+        run: |
+          echo "$KESTORE_BASE64" | base64 -d > $HOME/.android/release.keystore
+        env:
+          KESTORE_BASE64: ${{ secrets.KEYSTORE_FILE }}
+
       # Step 3: Cache Gradle dependencies
       - name: Cache Gradle dependencies
         uses: actions/cache@v2
@@ -38,7 +45,7 @@ jobs:
       # Step 5: Set up environment variables (pass secrets)
       - name: Set up Keystore secrets
         run: |
-          echo "KEYSTORE_FILE=${{ secrets.KEYSTORE_FILE }}" >> $GITHUB_ENV
+#          echo "KEYSTORE_FILE=${{ secrets.KEYSTORE_FILE }}" >> $GITHUB_ENV
           echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
           echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
           echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
