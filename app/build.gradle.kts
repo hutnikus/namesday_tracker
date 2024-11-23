@@ -47,7 +47,7 @@ android {
     }
     signingConfigs {
         create("release") {
-            file((System.getenv("HOME") + "/.android/release.keystore") ?: " ") // storeFile = file(System.getenv("KEYSTORE_FILE") ?: " ")
+            storeFile = file(System.getenv("KEYSTORE_FILE_PATH") ?: "keystore-not-found")
             storePassword = System.getenv("KEYSTORE_PASSWORD") ?: " "
             keyAlias = System.getenv("KEY_ALIAS") ?: " "
             keyPassword = System.getenv("KEY_PASSWORD") ?: " "
