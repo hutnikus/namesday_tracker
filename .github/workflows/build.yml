@@ -31,7 +31,7 @@ jobs:
         env:
           KESTORE_BASE64: ${{ secrets.KEYSTORE_FILE }}
 
-      # Step 3: Cache Gradle dependencies
+      # Step 4: Cache Gradle dependencies
       - name: Cache Gradle dependencies
         uses: actions/cache@v2
         with:
@@ -40,22 +40,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      # Step 4: Set up Gradle (optional, but useful for caching)
+      # Step 5: Set up Gradle (optional, but useful for caching)
       - name: Set up Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
 
-      # Step 5: Set up environment variables (pass secrets)
+      # Step 6: Set up environment variables (pass secrets)
       - name: Set up Keystore secrets
         run: |
           echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
           echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
           echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
 
-      # Step 6: Build the APK (use Gradle to build)
+      # Step 7: Build the APK (use Gradle to build)
       - name: Build APK
         run: ./gradlew assembleRelease
 
-      # Step 7: Upload the APK as an artifact (optional)
+      # Step 8: Upload the APK as an artifact (optional)
       - name: Upload APK as a GitHub release artifact
         uses: softprops/action-gh-release@v1
         with:
