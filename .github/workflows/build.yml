@@ -25,6 +25,7 @@ jobs:
       # Step 3: Restore keystore from base64 secret
       - name: Decode keystore and store it
         run: |
+          mkdir -p $HOME/.android
           echo "$KESTORE_BASE64" | base64 -d > $HOME/.android/release.keystore
         env:
           KESTORE_BASE64: ${{ secrets.KEYSTORE_FILE }}
