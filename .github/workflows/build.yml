@@ -3,6 +3,8 @@ name: Build APK
 # Trigger this action when pushing to the master branch
 on:
   push:
+    tags:
+      - "v*"
     branches:
       - master
 
