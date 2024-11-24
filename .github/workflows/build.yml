@@ -61,11 +61,21 @@ jobs:
       - name: Build APK
         run: ./gradlew assembleRelease
 
-      # Step 8: Upload the APK as an artifact (optional)
+      # Get version from tag (if using tags like v1.2.0)
+      - name: Get version from tag
+        id: version
+        run: echo "::set-output name=version::$(echo ${GITHUB_REF#refs/tags/} | sed 's/^v//')"
+
+      # Step 8: Rename the APK
+      - name: Rename APK
+        run: |
+          mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/NamesdayTracker-${{ steps.version.outputs.version }}.apk
+
+      # Step 9: Upload the renamed APK as a GitHub release artifact
       - name: Upload APK as a GitHub release artifact
         uses: softprops/action-gh-release@v1
         with:
-          files: app/build/outputs/apk/release/app-release.apk
+          files: app/build/outputs/apk/release/NamesdayTracker-${{ steps.version.outputs.version }}.apk
           tag_name: ${{ github.ref_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

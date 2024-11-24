@@ -18,8 +18,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-//        setProperty("archivesBaseName", "${applicationId}-${versionName)-${versionCode}")
-        setProperty("archivesBaseName","namesday_tracker${versionName}")
+//        setProperty("archivesBaseName","namesday_tracker${versionName}")
     }
 
     signingConfigs {
