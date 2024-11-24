@@ -11,21 +11,28 @@ android {
         applicationId = "com.example.namesdaytracker"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 0
+        versionName = "0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
+//        setProperty("archivesBaseName", "${applicationId}-${versionName)-${versionCode}")
+        setProperty("archivesBaseName","namesday_tracker${versionName}")
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true           // Enable code shrinking
+            isShrinkResources = true         // Enable resource shrinking
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            signingConfig = signingConfigs.getByName("release")  // Use the signing configuration
         }
     }
+
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -51,14 +58,6 @@ android {
             storePassword = System.getenv("KEYSTORE_PASSWORD") ?: " "
             keyAlias = System.getenv("KEY_ALIAS") ?: " "
             keyPassword = System.getenv("KEY_PASSWORD") ?: " "
-        }
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            signingConfig = signingConfigs.getByName("release")
         }
     }
 }
