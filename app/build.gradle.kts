@@ -22,6 +22,15 @@ android {
         setProperty("archivesBaseName","namesday_tracker${versionName}")
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(System.getenv("KEYSTORE_FILE_PATH") ?: "keystore-not-found")
+            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: " "
+            keyAlias = System.getenv("KEY_ALIAS") ?: " "
+            keyPassword = System.getenv("KEY_PASSWORD") ?: " "
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true           // Enable code shrinking
@@ -52,14 +61,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    signingConfigs {
-        create("release") {
-            storeFile = file(System.getenv("KEYSTORE_FILE_PATH") ?: "keystore-not-found")
-            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: " "
-            keyAlias = System.getenv("KEY_ALIAS") ?: " "
-            keyPassword = System.getenv("KEY_PASSWORD") ?: " "
-        }
-    }
+
 }
 
 dependencies {
