@@ -61,6 +61,18 @@ android {
         }
     }
 
+    sourceSets {
+        getByName("main") {
+            assets.srcDirs("src/main/assets")
+        }
+        getByName("release") {
+            assets.srcDirs("src/main/assets")
+        }
+        getByName("debug") {
+            assets.srcDirs("src/main/assets")
+        }
+    }
+
 }
 
 dependencies {
