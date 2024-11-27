@@ -1,6 +1,7 @@
 package com.example.namesdaytracker.data
 
 import android.content.Context
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
@@ -11,8 +12,12 @@ class DataUtils {
     companion object {
 
         fun getAllData(context: Context) : ArrayList<Locale> {
+            Log.i("files", "enter getAllData()")
+
             val resultList = arrayListOf<Locale>()
             val files = context.assets.list("locales")
+            Log.i("files", "Files list: ${files.toString()}")
+            files?.forEach { fileName -> Log.i("files", "fileName: $fileName"); }
             files?.forEach { fileName ->
                 // Read the JSON file
                 val inputStream = context.assets.open("locales/$fileName")

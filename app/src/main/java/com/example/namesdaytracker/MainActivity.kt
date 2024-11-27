@@ -20,14 +20,18 @@ class MainActivity : ComponentActivity() {
 
     @SuppressLint("DiscouragedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("files", "onCreate enter")
         super.onCreate(savedInstanceState)
 
         Log.d("widget","main activity created")
 
         setContentView(R.layout.activity_main)
 
+        Log.d("files", "loading locales")
         locales = DataUtils.getAllData(this)
         // random comment
+        Log.d("files", "locales loaded")
+
 
         val today = LocalDate.now()
 
@@ -54,6 +58,7 @@ class MainActivity : ComponentActivity() {
     @Suppress("UNUSED_PARAMETER")
     private fun onDateChange(datePicker: DatePicker, year: Int, month: Int, day: Int) {
         Log.d("month",String.format("year %d, month %d, day %d",year,month,day))
+        Log.d("files","onDateChange")
 
         //+1 because the picker has january as 0
         setTextViewText(DataUtils.getPrintableNamesByLocaleAndDate(locales,chosenLocales,day,month+1))

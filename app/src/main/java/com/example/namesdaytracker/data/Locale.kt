@@ -15,8 +15,8 @@ class Locale(val country: String, val countryName: String, val symbol: String, v
     }
 
     fun printDayNames(day: String,month: String) : String {
-        Log.d("files", "printDayNames: ${getNames(day,month)}")
-        Log.d("files", "printDayNamesJoined: ${getNames(day,month).joinToString(", ")}")
+        Log.d("Locale", "printDayNames: ${getNames(day,month)}")
+        Log.d("Locale", "printDayNamesJoined: ${getNames(day,month).joinToString(", ")}")
         return getNames(day,month).joinToString (", " )
     }
 }
